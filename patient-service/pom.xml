@@ -11,7 +11,8 @@
 	<groupId>com.pm</groupId>
 	<artifactId>patient-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>patient-service</name>
+    <packaging>pom</packaging>
+    <name>patient-service</name>
 	<description>patient-service</description>
 	<url/>
 	<licenses>
@@ -20,7 +21,10 @@
 	<developers>
 		<developer/>
 	</developers>
-	<scm>
+    <modules>
+        <module>../billing-service</module>
+    </modules>
+    <scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>
