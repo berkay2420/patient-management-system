@@ -4,6 +4,7 @@ import com.pm.patient_service.dto.PatientRequestDTO;
 import com.pm.patient_service.dto.PatientResponseDTO;
 import com.pm.patient_service.exception.EMailAlreadyExistsException;
 import com.pm.patient_service.exception.PatientNotFoundException;
+import com.pm.patient_service.grpc.BillingServiceGrpcClient;
 import com.pm.patient_service.mapper.PatientMapper;
 import com.pm.patient_service.model.Patient;
 import com.pm.patient_service.repository.PatientRepository;
@@ -15,11 +16,14 @@ import java.util.UUID;
 
 @Service
 public class PatientService {
-    private PatientRepository patientRepository;
+    private final PatientRepository patientRepository;
+
+    private final BillingServiceGrpcClient billingServiceGrpcClient;
 
     //dependency injection Constructor Injection
-    private PatientService(PatientRepository patientRepository){
+    private PatientService(PatientRepository patientRepository, BillingServiceGrpcClient billingServiceGrpcClient ){
         this.patientRepository = patientRepository;
+        this.billingServiceGrpcClient = billingServiceGrpcClient;
     }
 
     //For using the DTO we need convert patient object to DTO
@@ -45,6 +49,8 @@ public class PatientService {
         }
         Patient newPatient = patientRepository.save(
                 PatientMapper.toModel(patientRequestDTO));
+
+        billingServiceGrpcClient.createBillingAccount(newPatient.getId().toString(), newPatient.getName(), newPatient.getEmail());
 
         return PatientMapper.toDTO(newPatient);
     }
@@ -72,6 +78,7 @@ public class PatientService {
 
     public void deletePatient(UUID id){
         patientRepository.deleteById(id);
+        billingServiceGrpcClient.deleteBillingAccount(id);
     }
 
 }
