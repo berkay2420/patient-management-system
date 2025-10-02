@@ -4,7 +4,8 @@ option java_multiple_files = true;
 option java_package = "billing";
 
 service BillingService {
-  rpc CreteBillingAccount (BillingRequest) returns (BillingResponse);
+  rpc CreateBillingAccount (BillingRequest) returns (BillingResponse);
+  rpc DeleteBillingAccount (BillingDeleteRequest) returns (BillingResponse);
 }
 
 message  BillingRequest {
@@ -16,4 +17,8 @@ message  BillingRequest {
 message  BillingResponse {
   string accountId = 1;
   string status=2;
+}
+
+message  BillingDeleteRequest {
+  string patientId = 1;
 }

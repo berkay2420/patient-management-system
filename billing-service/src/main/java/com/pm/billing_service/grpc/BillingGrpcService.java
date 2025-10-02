@@ -1,5 +1,6 @@
 package com.pm.billing_service.grpc;
 
+import billing.BillingDeleteRequest;
 import billing.BillingRequest;
 import billing.BillingResponse;
 import billing.BillingServiceGrpc;
@@ -17,7 +18,7 @@ public class BillingGrpcService  extends BillingServiceGrpc.BillingServiceImplBa
 
     //Using the method from billing_service.proto file
     @Override
-    public void creteBillingAccount(BillingRequest billingRequest,
+    public void createBillingAccount(BillingRequest billingRequest,
                                     StreamObserver<BillingResponse> responseObserver) {
         //StreamObserver is for communication between client and server.
         log.info("createBillingAccount request received {}", billingRequest.toString());
@@ -31,4 +32,16 @@ public class BillingGrpcService  extends BillingServiceGrpc.BillingServiceImplBa
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+    @Override
+    public void deleteBillingAccount(BillingDeleteRequest request,
+                                     StreamObserver<BillingResponse> responseObserver) {
+        log.info("deleteBillingAccount request received {}", request.getPatientId());
+        BillingResponse response = BillingResponse.newBuilder()
+                .setAccountId(request.getPatientId())
+                .setStatus("DELETED")
+                .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
 }
