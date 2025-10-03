@@ -1,0 +1,30 @@
+server:
+  port: 4004
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: patient-service-route
+          uri: http://patient-service:4000
+          predicates:
+            - Path=/api/patients/**
+          filters:
+            - StripPrefix=1
+            ##automatically deletes the /api
+
+            ##REST CLIENT -> http://localhost:4004/api/patients
+            ##API GATEWAY -> http://patient-service/api/patients
+            ##PATIENT SERVICE(SPRING BOOT APP) -> /patients -> patients array
+
+        - id: api-docs-patient-route
+          uri: http://patient-serVice:4000
+          predicates:
+            - Path=/api-docs/patients
+          filters:
+            - RewritePath=/api-docs/patients,/v3/api-docs
+            ##documentation is here: http://patient-servie:4000/v3/api-docs (swagger)
+
+
+
+

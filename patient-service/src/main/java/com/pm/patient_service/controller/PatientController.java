@@ -26,14 +26,14 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @GetMapping("/get-patients")
+    @GetMapping
     @Operation(summary = "Get Patients")
     public ResponseEntity<List<PatientResponseDTO>> getPatients() {
 
         return ResponseEntity.ok(patientService.getPatients());
     }
 
-    @PostMapping("/create-patient")
+    @PostMapping
     @Operation(summary = "Create Patient")
     public ResponseEntity<PatientResponseDTO> createPatient(
             @Validated({Default.class, CreatePatientValidationGroup.class}) //checks for additional validations we have created
