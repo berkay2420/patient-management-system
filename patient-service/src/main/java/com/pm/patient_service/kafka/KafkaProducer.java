@@ -7,6 +7,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import patient.event.PatientEvent;
 
+import java.util.Base64;
+
 @Service
 public class KafkaProducer {
 
@@ -31,7 +33,12 @@ public class KafkaProducer {
         try {
             kafkaTemplate.send("patient", event.toByteArray());
         } catch (Exception e) {
-            log.error("Error sending PatientCreated event: {}", event);
+            log.error("Error sending PatientCreated error {}event: {}", e, event);
         }
     }
 }
+
+// to use kafka broker we need to start a kafka consumer in services > docker > containers > kafka > terminal
+// below is the command line for initializing a kafka consumer
+//kafka-console-consumer.sh --topic patient --from-beginning --bootstrap-server localhost:9092
+//this way we can able to see all logs
