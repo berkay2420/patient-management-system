@@ -11,6 +11,7 @@ spring:
             - Path=/api/patients/**
           filters:
             - StripPrefix=1
+            - JwtValidation
             ##automatically deletes the /api
 
             ##REST CLIENT -> http://localhost:4004/api/patients
@@ -18,13 +19,18 @@ spring:
             ##PATIENT SERVICE(SPRING BOOT APP) -> /patients -> patients array
 
         - id: api-docs-patient-route
-          uri: http://patient-serVice:4000
+          uri: http://patient-service:4000
           predicates:
             - Path=/api-docs/patients
           filters:
             - RewritePath=/api-docs/patients,/v3/api-docs
             ##documentation is here: http://patient-servie:4000/v3/api-docs (swagger)
 
-
+        - id: auth-service-route
+          uri: http://auth-service:4005
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
 
 

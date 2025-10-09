@@ -33,7 +33,7 @@ public class AuthService {
 
     }
 
-    public boolean validateToken(String toke){
+    public boolean validateToken(String token){
         try {
             jwtUtil.validateToken(token);
             return true;
